@@ -4,7 +4,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use WAF;
-use WAF::Router;
+use WAF::Router ();
 
 package Controller;
 sub new {

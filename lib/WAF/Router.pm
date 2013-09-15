@@ -3,6 +3,28 @@ use strict;
 use warnings;
 use Class::Load qw(load_class);
 
+use Exporter qw(import);
+our @EXPORT_OK = qw(GET POST router);
+our %EXPORT_TAGS = ( declare => \@EXPORT_OK );
+
+# same as Router::Simple...
+our $_ROUTER;
+
+sub router (&) {
+    my $cb = shift;
+    local $_ROUTER = WAF::Router->new;
+    $cb->();
+    $_ROUTER->compile;
+    $_ROUTER;
+}
+
+sub GET {
+    $_ROUTER->register( GET => @_ );
+}
+sub POST {
+    $_ROUTER->register( POST => @_ );
+}
+
 sub new {
     my $class = shift;
     my $self = bless { GET => +{}, POST => +{} }, $class;
